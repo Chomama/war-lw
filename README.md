@@ -12,7 +12,7 @@ The "/start" endpoint utilizes the node functionility execFile() to launch a bac
 The game simulates two players and once the game ends, writes to a json file to keep track of lifetime wins for each player. The "/score" endpoint utilizes node module fs to read from the json and return the scores.
 
 ## Testing
--Basic testing is done using Mocha and Chai and can be found in the tests directory.
+Basic testing is done using Mocha and Chai and can be found in the tests directory.
 
 
 ## Usage
