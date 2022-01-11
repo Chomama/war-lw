@@ -1,6 +1,6 @@
-#WAR-LW
+# WAR-LW
 
-##This project is a lightweight version of the card game war. The app exposes two endpoints "/start" and "/score".
+## This project is a lightweight version of the card game war. The app exposes two endpoints "/start" and "/score".
 
 -The "/start" endpoint utilizes the node functionility execFile() to launch a background process that runs the logic the card game in javascript file play_war.
 
