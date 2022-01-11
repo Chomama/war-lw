@@ -12,6 +12,7 @@
 In order to run the project:
 
 git clone https://github.com/Chomama/war-project.git
+
 cd tank-game
 npm install
 npm start
