@@ -206,7 +206,7 @@ function updatePlayerScore(playerId) {
   } else {
     users["playerTwo"]["score"] += 1;
   }
-  fs.writeFileSync(__dirname + "/" + "score.json", JSON.stringify(users));
+  fs.writeFileSync(__dirname + "/" + "./score.json", JSON.stringify(users));
 }
 
 startGame();

@@ -10,6 +10,7 @@ app.get("/", function (req, res) {
 });
 
 app.get("/start", function (req, res) {
+  res.send("War game has started.");
   execFile(__dirname + "/start_war.js", (error, stdout, stderr) => {
     if (error) {
       console.error(`error: ${error.message}`);
@@ -26,7 +27,7 @@ app.get("/start", function (req, res) {
 });
 
 app.get("/score", function (req, res) {
-  fs.readFile(__dirname + "/" + "score.json", "utf8", function (err, data) {
+  fs.readFile(__dirname + "/" + "./data/score.json", "utf8", function (err, data) {
     console.log(data);
     res.end(data);
   });
@@ -38,3 +39,5 @@ var server = app.listen(8081, function () {
 
   console.log("Example app listening at http://%s:%s", host, port);
 });
+
+module.exports = server;
