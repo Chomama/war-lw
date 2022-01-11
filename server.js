@@ -11,7 +11,7 @@ app.get("/", function (req, res) {
 
 app.get("/start", function (req, res) {
   res.send("War game has started.");
-  execFile(__dirname + "/start_war.js", (error, stdout, stderr) => {
+  execFile(__dirname + "/play_war.js", (error, stdout, stderr) => {
     if (error) {
       console.error(`error: ${error.message}`);
       return;
