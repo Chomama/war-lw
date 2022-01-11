@@ -15,8 +15,8 @@ The game simulates two players and once the game ends, writes to a json file to 
 -Basic testing is done using Mocha and Chai and can be found in the tests directory.
 
 
-## Installation
-In order to run the project:
+## Usage
+**Installation**
 
 ```bash
 git clone https://github.com/Chomama/war-project.git
