@@ -11,9 +11,8 @@
 
 In order to run the project:
 
-git clone https://github.com/Chomama/war-project.git
-
-cd tank-game
-npm install
-npm start
-Browse to localhost:8081
+1. git clone https://github.com/Chomama/war-project.git
+2. cd tank-game
+3. npm install
+4. npm start
+5. Browse to localhost:8081
