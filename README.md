@@ -22,6 +22,19 @@ In order to run the project:
 git clone https://github.com/Chomama/war-project.git
 cd war-lw
 npm install
+```
+**Start the application in dev mode running on localhost localhost:8081/**
+
+```
 npm start
 ```
-Then browse to localhost:8081.
+
+**Run tests**
+```
+npm test
+```
+
+**Build for production**
+```
+npm run build
+```
