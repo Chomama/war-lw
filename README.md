@@ -24,7 +24,7 @@ docker run -it -p 8081:8081 war-docker
 ```
 App will be running on localhost:8081
 
-## Usage
+## Usage without Docker
 **Installation**
 
 ```bash
