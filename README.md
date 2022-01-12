@@ -18,7 +18,7 @@ Basic testing is done using Mocha and Chai and can be found in the tests directo
 To run using docker
 
 ```bash
-git clone https://github.com/Chomama/war-project.git
+https://github.com/Chomama/war-lw.git
 cd war-lw
 docker build -t war-docker .
 docker run -it -p 8081:8081 war-docker
@@ -29,7 +29,7 @@ App will be running on localhost:8081
 **Installation**
 
 ```bash
-git clone https://github.com/Chomama/war-project.git
+https://github.com/Chomama/war-lw.git
 cd war-lw
 npm install
 ```
