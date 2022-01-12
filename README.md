@@ -1,6 +1,6 @@
 # WAR-LW
 
-This project runs the card game war and is written with NodeJs and Javascript.
+This project runs the card game war and is written with NodeJs, Javascript, and uses Json for persistent storage.
 
 
 ## API's
