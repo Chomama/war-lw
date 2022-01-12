@@ -14,6 +14,14 @@ The game simulates two players and once the game ends, writes to a json file to 
 ## Testing
 Basic testing is done using Mocha and Chai and can be found in the tests directory.
 
+## Docker
+To run using docker
+
+```bash
+docker build -t war-docker .
+docker run -it -p 8081:8081 war-docker
+```
+App will be running on localhost:8081
 
 ## Usage
 **Installation**
