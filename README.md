@@ -1,13 +1,12 @@
 # WAR-LW
 
-This project is a lightweight version of the card game war written with NodeJs and Javascript.
-
+This project runs the card game war and is written with NodeJs and Javascript.
 
 
 ## API's
 The app exposes two endpoints "/start" and "/score".
 
-The "/start" endpoint utilizes the node functionility execFile() to launch a background process that runs the logic the card game in javascript file play_war.
+The "/start" endpoint utilizes the node functionility execFile() to launch a child process that runs the logic of the card game in javascript file play_war.
 
 The game simulates two players and once the game ends, writes to a json file to keep track of lifetime wins for each player. The "/score" endpoint utilizes node module fs to read from the json and return the scores.
 
