@@ -2,60 +2,10 @@
 const e = require("express");
 var fs = require("fs");
 
-const CARDS = [
-  "D2",
-  "D3",
-  "D4",
-  "D5",
-  "D6",
-  "D7",
-  "D8",
-  "D9",
-  "D10",
-  "D11",
-  "D12",
-  "D13",
-  "D14",
-  "C2",
-  "C3",
-  "C4",
-  "C5",
-  "C6",
-  "C7",
-  "C8",
-  "C9",
-  "C10",
-  "C11",
-  "C12",
-  "C13",
-  "C14",
-  "H2",
-  "H3",
-  "H4",
-  "H5",
-  "H6",
-  "H7",
-  "H8",
-  "H9",
-  "H10",
-  "H11",
-  "H12",
-  "H13",
-  "H14",
-  "S2",
-  "S3",
-  "S4",
-  "S5",
-  "S6",
-  "S7",
-  "S8",
-  "S9",
-  "S10",
-  "S11",
-  "S12",
-  "S13",
-  "S14",
-];
+const CARDS = ['D2', 'D3', 'D4', 'D5', 'D6', 'D7', 'D8', 'D9', 'D10', 'D11', 'D12', 'D13', 'D14',
+'C2', 'C3', 'C4', 'C5', 'C6', 'C7', 'C8', 'C9', 'C10', 'C11', 'C12', 'C13', 'C14',
+'H2', 'H3', 'H4', 'H5', 'H6', 'H7', 'H8', 'H9', 'H10', 'H11', 'H12', 'H13', 'H14',
+'S2', 'S3', 'S4', 'S5', 'S6', 'S7', 'S8', 'S9', 'S10', 'S11', 'S12', 'S13', 'S14'];
 
 const gameStates = {
   notStarted: "notStarted",
@@ -63,6 +13,7 @@ const gameStates = {
   done: "done",
 };
 
+//vars that hold state of the game
 var globalPlayerOneDeck = [];
 var globalPlayerTwoDeck = [];
 var globalPlayerOnePlayedCard = null;
@@ -72,46 +23,42 @@ var globalRoundStatus = null;
 var globalGameState = gameStates.notStarted;
 var intervalId = null;
 
+//initializes the starting values of the game
 function startGame() {
   var shuffledDeck = CARDS.sort(() => Math.random() - 0.5);
   globalPlayerOneDeck = shuffledDeck.slice(0, 26);
   globalPlayerTwoDeck = shuffledDeck.slice(26);
 }
 
+//plays one round of the game
 function playRound() {
+  //clears the timer if game is over
   if (globalGameState === gameStates.done) {
     clearInterval(intervalId);
     return;
   }
-  console.log("ROUND IN PROGRESS.");
   var p1DeckCopy = globalPlayerOneDeck;
   var p2DeckCopy = globalPlayerTwoDeck;
-
-  console.log("PLAYER 1 DECK: " + p1DeckCopy + " LENGTH: " + p1DeckCopy.length);
-  console.log("PLAYER 2 DECK: " + p2DeckCopy + " LENGTH: " + p2DeckCopy.length);
-
   var cardsWon = [];
   var roundWinner;
   var roundStatus;
   var gameState = gameStates.inProgress;
 
+  //gets cards from each players deck and adds them to the winners pool cardsWon
   var playerOneCard = p1DeckCopy.shift();
   var playerTwoCard = p2DeckCopy.shift();
-  console.log("PLAYER ONE CARD: " + playerOneCard);
-  console.log("PLAYER TWO CARD: " + playerTwoCard);
-
   cardsWon.push(playerOneCard, playerTwoCard);
 
+  //parses int from card values using regex
   var playerOneCardVal = parseInt(playerOneCard.replace(/[^\d.]/g, ""));
   var playerTwoCardVal = parseInt(playerTwoCard.replace(/[^\d.]/g, ""));
-  console.log("PLAYER ONE CARD VAL: " + playerOneCardVal);
-  console.log("PLAYER TWO CARD VAL: " + playerTwoCardVal);
 
   //war
   if (playerOneCardVal === playerTwoCardVal) {
-    console.log("WAR");
     var inWar = true;
+    //continues until war is over(in case of tie)
     while (inWar) {
+      //ends game if player does not have enough cards to play war
       if (p1DeckCopy.length < 2) {
         inWar = false;
         roundWinner = "playerOne";
@@ -125,10 +72,9 @@ function playRound() {
         gameState = gameStates.done;
         updatePlayerScore("playerOne");
       } else {
+        //takes out two cards each and adds to winners
         var playerOneWarCard = p1DeckCopy.shift();
         var playerTwoWarCard = p2DeckCopy.shift();
-        console.log("IN WAR PLAYER ONE DRAWS: " + playerOneWarCard);
-        console.log("IN WAR PLAYER TWO DRAWS: " + playerTwoWarCard);
         var playerOneWarCardVal = parseInt(
           playerOneWarCard.replace(/[^\d.]/g, "")
         );
@@ -139,8 +85,8 @@ function playRound() {
         var playerOneFaceDownCard = p1DeckCopy.shift();
         var playerTwoFaceDownCard = p2DeckCopy.shift();
         cardsWon.push(playerOneFaceDownCard, playerTwoFaceDownCard);
+        //player one wins war
         if (playerOneWarCardVal > playerTwoWarCardVal) {
-          console.log("PLAYER ONE WON WAR WITH CARD: " + playerOneWarCard);
           roundWinner = "playerOne";
           p1DeckCopy.push(...cardsWon);
           inWar = false;
@@ -148,8 +94,8 @@ function playRound() {
             "War was declared.  Player 1 won the war and received " +
             cardsWon.length +
             "cards.";
+        //player two wins war
         } else if (playerTwoWarCardVal > playerOneWarCardVal) {
-          console.log("PLAYER TWO WON WAR WITH CARD: " + playerTwoWarCardVal);
           roundWinner = "playerTwo";
           p2DeckCopy.push(...cardsWon);
           inWar = false;
@@ -161,34 +107,36 @@ function playRound() {
       }
     }
   } else {
+    //normal round camparisons
     if (playerOneCardVal > playerTwoCardVal) {
-      console.log("PLAYER ONE WON WITH CARD: " + playerOneCard);
       roundWinner = "playerOne";
       p1DeckCopy.push(...cardsWon);
       roundStatus = "Player One won " + cardsWon.length + " cards";
     } else {
-      console.log("PLAYER TWO WON WITH CARD: " + playerTwoCard);
       roundWinner = "playerTwo";
       p2DeckCopy.push(...cardsWon);
       roundStatus = "Player Two won " + cardsWon.length + " cards";
     }
   }
 
+  //win scenarios
   if (p1DeckCopy.length === 0) {
     roundStatus = "Player one has no cards left. PLAYER TWO HAS WON!";
     gameState = gameStates.done;
+    //calls function to update score in json
     updatePlayerScore("playerTwo");
   } else if (p2DeckCopy.length === 0) {
     roundStatus = "Player two has no cards left. PLAYER ONE HAS WON!";
     gameState = gameStates.done;
     updatePlayerScore("playerOne");
   }
-  console.log("END OF ROUND_____________________");
-  console.log("ROUND WINNER: " + roundWinner);
-  console.log("P1 has " + p1DeckCopy.length + " cards left.");
-  console.log("P2 has " + p2DeckCopy.length + " cards left.");
-  console.log("ROUND STATUS: " + roundStatus);
+  // console.log("END OF ROUND_____________________");
+  // console.log("ROUND WINNER: " + roundWinner);
+  // console.log("P1 has " + p1DeckCopy.length + " cards left.");
+  // console.log("P2 has " + p2DeckCopy.length + " cards left.");
+  // console.log("ROUND STATUS: " + roundStatus);
 
+  //updates all game state 
   globalPlayerOneDeck = p1DeckCopy;
   globalPlayerTwoDeck = p2DeckCopy;
   globalRoundWinner = roundWinner;
@@ -198,6 +146,7 @@ function playRound() {
   globalGameState = gameState;
 }
 
+//updates score in json file 
 function updatePlayerScore(playerId) {
   data = fs.readFileSync(__dirname + "/" + "score.json", "utf8");
   var users = JSON.parse(data);
